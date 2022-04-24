@@ -1,4 +1,4 @@
-import logo from '../images/logo.svg';
+import Header from './Header';
 
 function App() {
   return (
@@ -6,9 +6,7 @@ function App() {
 			{/* page */}
 			<div className="page">
 				{/* header */}
-				<header className="header">
-					<img className="logo" src={logo} alt="логотип 'Mesto'" />
-				</header>
+        <Header />
 				{/* main */}
 				<main className="content">
 					{/* profile */}
