@@ -1,3 +1,4 @@
+import logo from '../images/logo.svg';
 
 function App() {
   return (
@@ -6,7 +7,7 @@ function App() {
 			<div className="page">
 				{/* header */}
 				<header className="header">
-					<img className="logo" src="<%=require('./images/logo.svg')%>" alt="логотип 'Mesto'" />
+					<img className="logo" src={logo} alt="логотип 'Mesto'" />
 				</header>
 				{/* main */}
 				<main className="content">
@@ -38,13 +39,13 @@ function App() {
 					<div className="popup__container">
 						<button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно"></button>
 						<h2 className="popup__title">Редактировать профиль</h2>
-						<form className="popup__form popup__form_type_profile" method="get" name="profile" novalidate>
+						<form className="popup__form popup__form_type_profile" method="get" name="profile" noValidate>
 							<label className="popup__input-group">
-								<input className="popup__input popup__input_type_user-name" id="user-name-input" type="text" name="username" placeholder="Имя" minlength="2" maxlength="40" required />
+								<input className="popup__input popup__input_type_user-name" id="user-name-input" type="text" name="username" placeholder="Имя" minLength="2" maxLength="40" required />
 								<p className="popup__input-error user-name-input-error"></p>
 							</label>
 							<label className="popup__input-group">
-								<input className="popup__input popup__input_type_about-me" id="about-me-input" type="text" name="aboutme" placeholder="О себе" minlength="2" maxlength="200" required />
+								<input className="popup__input popup__input_type_about-me" id="about-me-input" type="text" name="aboutme" placeholder="О себе" minLength="2" maxLength="200" required />
 								<p className="popup__input-error about-me-input-error"></p>
 							</label>
 							<button className="popup__button" type="submit" aria-label="сохранить изминения">Сохранить</button>
@@ -56,9 +57,9 @@ function App() {
 					<div className="popup__container">
 						<button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно"></button>
 						<h2 className="popup__title">Новое место</h2>
-						<form className="popup__form popup__form_type_photo" method="get" name="photo" novalidate>
+						<form className="popup__form popup__form_type_photo" method="get" name="photo" noValidate>
 							<label className="popup__input-group">
-								<input className="popup__input popup__input_type_card-name" id="card-name-input" type="text" name="cardname" placeholder="Название" minlength="2" maxlength="30" required />
+								<input className="popup__input popup__input_type_card-name" id="card-name-input" type="text" name="cardname" placeholder="Название" minLength="2" maxLength="30" required />
 								<p className="popup__input-error card-name-input-error"></p>
 							</label>
 							<label className="popup__input-group">
@@ -82,17 +83,17 @@ function App() {
 					<div className="popup__container">
 						<button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно"></button>
 						<h2 className="popup__title">Вы уверены?</h2>
-						<form className="popup__form popup__form_type_card-delete" method="get" name="card-delete" novalidate>
+						<form className="popup__form popup__form_type_card-delete" method="get" name="card-delete" noValidate>
 							<button className="popup__button" type="submit" aria-label="Подтвердить удаление карточки">Да</button>
 						</form>
 					</div>
 				</div>
-				{/* update avatar */}
+				{/* popup update avatar */}
 				<div className="popup popup_type_update-avatar">
 					<div className="popup__container">
 						<button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно"></button>
 						<h2 className="popup__title">Обновить аватар</h2>
-						<form className="popup__form popup__form_type_update-avatar" method="get" name="update-avatar" novalidate>
+						<form className="popup__form popup__form_type_update-avatar" method="get" name="update-avatar" noValidate>
 							<label className="popup__input-group">
 								<input className="popup__input popup__input_type_avatar" id="avatar-input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
 								<p className="popup__input-error avatar-input-error"></p>
