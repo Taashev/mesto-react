@@ -1,19 +1,18 @@
 import Header from './Header';
 import Main from './Main';
+import Footer from './Footer';
 
 function App() {
   return (
     <>
 			{/* page */}
 			<div className="page">
-				{/* header */}
+				{/* Header */}
         <Header />
-				{/* main */}
+				{/* Main */}
         <Main />
-				{/* footer */}
-				<footer className="footer">
-					<p className="footer__cop">&copy; 2021 Mesto Russia</p>
-				</footer>
+				{/* Footer */}
+				<Footer />
 
 				{/* popup profile */}
 				<div className="popup popup_type_profile">
