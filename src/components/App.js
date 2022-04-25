@@ -7,9 +7,9 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
-  let [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  let [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  let [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
   // handle edit profile
   function handleEditProfileClick() {
@@ -24,6 +24,7 @@ function App() {
     setIsEditAvatarPopupOpen(true)
   }
 
+  // close popup
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -75,21 +76,6 @@ function App() {
         {/* popup fullscreen */}
         <ImagePopup />
 			</div>
-
-			{/* template */}
-			<template className="card-template">
-				<li className="card__item">
-					<button className="card__trash hover" type="button" aria-label="удалить карточку"></button>
-					<img className="card__img" src="#" alt="#" />
-					<div className="card__footer">
-						<h2 className="card__text"></h2>
-						<div className="card__like-wraper">
-							<button className="card__like" type="button" aria-label="лайк"></button>
-							<span className="card__counter"></span>
-						</div>
-					</div>
-				</li>
-			</template>
 		</>
   );
 }

@@ -1,5 +1,3 @@
-import React from "react";
-
 function PopupWithForm({name, title, children, ariaLabelBtn="сохранить изминения", nameBtn="Сохранить", isOpen, onClose}) {
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>

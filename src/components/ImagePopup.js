@@ -1,5 +1,3 @@
-import React from "react";
-
 function ImagePopup() {
   return (
     <div className="popup popup_type_fullscreen">
