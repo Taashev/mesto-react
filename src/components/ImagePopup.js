@@ -1,9 +1,9 @@
-function ImagePopup() {
+function ImagePopup({ card, onClose }) {
   return (
-    <div className="popup popup_type_fullscreen">
+    <div className={`popup popup_type_fullscreen ${card ? 'popup_opened' : ''}`}>
       <div className="popup__container-fullscreen">
-        <button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно"></button>
-        <img className="popup__full-img" src="#" alt="#" />
+        <button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно" onClick={onClose}></button>
+        <img className="popup__full-img" src={card.link} alt="#" />
         <h2 className="popup__full-text"></h2>
       </div>
     </div>

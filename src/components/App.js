@@ -11,25 +11,32 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
+  const [selectedCard, setSelectedCard] = React.useState(false);
+
   // handle edit profile
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true)
-  }
+    setIsEditProfilePopupOpen(true);
+  };
   // handle add photo
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true)
-  }
+    setIsAddPlacePopupOpen(true);
+  };
   // handle edit avatar
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true)
-  }
+    setIsEditAvatarPopupOpen(true);
+  };
 
   // close popup
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-  }
+    setSelectedCard(false);
+  };
+
+  function handleCardClick(card) {
+    setSelectedCard(card)
+  };
 
   return (
     <>
@@ -38,12 +45,20 @@ function App() {
 				{/* Header */}
         <Header />
 				{/* Main */}
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+        <Main
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick} />
 				{/* Footer */}
 				<Footer />
 
         {/* popup profile */}
-        <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm
+          name="profile"
+          title="Редактировать профиль"
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}>
           <label className="popup__input-group">
             <input className="popup__input popup__input_type_user-name" id="user-name-input" type="text" name="username" placeholder="Имя" minLength="2" maxLength="40" required />
             <p className="popup__input-error user-name-input-error"></p>
@@ -54,7 +69,11 @@ function App() {
           </label>
         </PopupWithForm>
         {/* popup photo */}
-        <PopupWithForm name="photo" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm
+          name="photo"
+          title="Новое место"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}>
           <label className="popup__input-group">
             <input className="popup__input popup__input_type_card-name" id="card-name-input" type="text" name="cardname" placeholder="Название" minLength="2" maxLength="30" required />
             <p className="popup__input-error card-name-input-error"></p>
@@ -65,16 +84,24 @@ function App() {
           </label>
         </PopupWithForm>
         {/* popup card delete */}
-        <PopupWithForm name="card-delete" title="Вы уверены?" ariaLabelBtn="Подтвердить удаление карточки" nameBtn="Да" />
+        <PopupWithForm
+          name="card-delete"
+          title="Вы уверены?"
+          ariaLabelBtn="Подтвердить удаление карточки"
+          nameBtn="Да" />
         {/* popup update avatar */}
-        <PopupWithForm name="update-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm
+          name="update-avatar"
+          title="Обновить аватар"
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}>
           <label className="popup__input-group">
             <input className="popup__input popup__input_type_avatar" id="avatar-input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
             <p className="popup__input-error avatar-input-error"></p>
           </label>
         </PopupWithForm>
         {/* popup fullscreen */}
-        <ImagePopup />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
 			</div>
 		</>
   );

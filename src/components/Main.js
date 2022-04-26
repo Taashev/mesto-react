@@ -5,7 +5,8 @@ import Card from './Card';
 function Main({
   onEditProfile,
   onAddPlace,
-  onEditAvatar
+  onEditAvatar,
+  onCardClick
 }) {
   const [userName, setUserName] = React.useState('...');
   const [userDescription, setUserDescription ] = React.useState('...');
@@ -66,7 +67,7 @@ function Main({
       {/* cards */}
       <section className="card">
         <ul className="card__items">
-          {cards.map((card) => <Card card={card} key={card._id} />)}
+          {cards.map((card) => <Card card={card} key={card._id} onCardClick={onCardClick} />)}
         </ul>
       </section>
     </main>
