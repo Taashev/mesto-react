@@ -4,7 +4,7 @@ function ImagePopup({ card, onClose }) {
       <div className="popup__container-fullscreen">
         <button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно" onClick={onClose}></button>
         <img className="popup__full-img" src={card.link} alt="#" />
-        <h2 className="popup__full-text"></h2>
+        <h2 className="popup__full-text">{card.name}</h2>
       </div>
     </div>
   )
