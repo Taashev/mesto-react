@@ -6,16 +6,17 @@ import api from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false);
+  const [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false);
+  const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false);
 
-  const [selectedCard, setSelectedCard] = useState({});
-  const [currentUser, setCurrentUser] = useState({});
+  const [ selectedCard, setSelectedCard ] = useState({});
+  const [ currentUser, setCurrentUser ] = useState({});
 
   // component did mount
   useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
     .catch(err => console.error(err));
 
     // static promise: user information first, then maps
-    Promise.all([getUserInfo])
+    Promise.all([ getUserInfo ])
       .then(res => {
         const getUserInfo = res[0];
         setCurrentUser(getUserInfo);
@@ -61,6 +62,15 @@ function App() {
     setSelectedCard(card)
   };
 
+  // set user info
+  function handleUpdateUser({name, about}) {
+    api.setUserInfo(name, about)
+      .then(res => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+  }
+
   return (
     <CurrentUserContext.Provider value={ currentUser }>
         <div className="page">
@@ -68,28 +78,15 @@ function App() {
           <Header />
           {/* Main */}
           <Main
-          onEditProfile={ handleEditProfileClick }
-          onAddPlace={ handleAddPlaceClick }
-          onEditAvatar={ handleEditAvatarClick }
-          onCardClick={ handleCardClick } />
+            onEditProfile={ handleEditProfileClick }
+            onAddPlace={ handleAddPlaceClick }
+            onEditAvatar={ handleEditAvatarClick }
+            onCardClick={ handleCardClick } />
           {/* Footer */}
           <Footer />
 
           {/* popup profile */}
-          <PopupWithForm
-            name="profile"
-            title="Редактировать профиль"
-            isOpen={ isEditProfilePopupOpen }
-            onClose={closeAllPopups}>
-            <label className="popup__input-group">
-              <input className="popup__input popup__input_type_user-name" id="user-name-input" type="text" name="username" placeholder="Имя" minLength="2" maxLength="40" required />
-              <p className="popup__input-error user-name-input-error"></p>
-            </label>
-            <label className="popup__input-group">
-              <input className="popup__input popup__input_type_about-me" id="about-me-input" type="text" name="aboutme" placeholder="О себе" minLength="2" maxLength="200" required />
-              <p className="popup__input-error about-me-input-error"></p>
-            </label>
-          </PopupWithForm>
+          <EditProfilePopup isOpen={ isEditProfilePopupOpen } onClose={ closeAllPopups } onUpdateUser={handleUpdateUser} />
           {/* popup photo */}
           <PopupWithForm
             name="photo"
