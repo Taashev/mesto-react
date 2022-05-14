@@ -13,10 +13,10 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
     setLink(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
 
-    onAddPlace({name: name, link: link})
+    onAddPlace({name: name, link: link}, setLoader, nameBtn)
   }
 
   useEffect(() => {

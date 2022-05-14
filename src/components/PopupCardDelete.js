@@ -1,0 +1,29 @@
+import PopupWithForm from "./PopupWithForm";
+
+function PopupCardDelete({
+  onClose,
+  isOpen,
+  onCardDelete,
+  card
+}) {
+  function handleSubmit(e, setLoader, nameBtn) {
+    e.preventDefault();
+
+    onCardDelete(card, setLoader, nameBtn)
+  }
+
+  return (
+    <PopupWithForm
+      name="card-delete"
+      title="Вы уверены?"
+      ariaLabelBtn="Подтвердить удаление карточки"
+      nameBtn="Да"
+      textLoading="Удалине..."
+      onClose={ onClose }
+      isOpen={ isOpen }
+      onSubmit={ handleSubmit }
+    />
+  );
+}
+
+export default PopupCardDelete;

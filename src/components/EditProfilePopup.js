@@ -4,10 +4,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-
   const [name, setName] = useState(currentUser.name);
   const [description, setDescription] = useState(currentUser.about);
-
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -17,10 +15,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     setDescription(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
 
-    onUpdateUser({ name, about: description });
+    onUpdateUser({ name, about: description }, setLoader, nameBtn);
   }
 
   useEffect(() => {

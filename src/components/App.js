@@ -5,21 +5,23 @@ import Footer from './Footer';
 import api from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-import PopupWithForm from './PopupWithForm';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
+import PopupCardDelete from './PopupCardDelete';
 
 
 function App() {
   const [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false);
   const [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false);
   const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false);
+  const [ isDeleteCardPopupOpen, setIsDeleteCardPopupOpen ] = useState(false);
 
   const [ selectedCard, setSelectedCard ] = useState({});
   const [ currentUser, setCurrentUser ] = useState({});
   const [ cards, setCards ] = useState([]);
+  const [ selectCardDelete, setSelectCardDelete ] = useState({});
 
   // component did mount
   useEffect(() => {
@@ -58,15 +60,6 @@ function App() {
     }
   };
 
-  // card delete
-  function handleCardDelete(card) {
-    api.deleteCard(card._id)
-      .then(_ => {
-        setCards((state) => state.filter((item) => item._id !== card._id))
-      })
-      .catch(err => console.error(`Ошибка: ${ err }`))
-  }
-
   // handle add photo popup
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
@@ -79,46 +72,67 @@ function App() {
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   };
+  // handle card delete popup
+  function handleDeleteCardClick(card) {
+    setIsDeleteCardPopupOpen(true);
+    setSelectCardDelete(card)
+  }
 
   // close popup
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
     setSelectedCard({});
   };
 
   // handle card click
   function handleCardClick(card) {
-    setSelectedCard(card)
+    setSelectedCard(card);
   };
 
   // set user info
-  function handleUpdateUser({ name, about }) {
+  function handleUpdateUser({ name, about }, setLoader, nameBtn) {
+
     api.setUserInfo(name, about)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
+        setLoader(nameBtn);
       })
       .catch(err => console.error(`Ошибка: ${ err }`))
   }
 
   // set user avatar
-  function handleUpdateAvatar({ avatar }) {
+  function handleUpdateAvatar({ avatar }, setLoader, nameBtn) {
     api.setUserAvatar(avatar)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
+        setLoader(nameBtn);
       })
       .catch(err => console.error(`Ошибка: ${ err }`))
   }
 
   // set card
-  function handleAddPlaceSubmit({ name, link }) {
+  function handleAddPlaceSubmit({ name, link }, setLoader, nameBtn) {
     api.setCard(name, link)
       .then(newCards => {
-        setCards([newCards, ...cards])
+        setCards([newCards, ...cards]);
         closeAllPopups();
+        setLoader(nameBtn);
+      })
+      .catch(err => console.error(`Ошибка: ${ err }`))
+  }
+
+  // card delete
+  function handleCardDelete(card, setLoader, nameBtn) {
+    api.deleteCard(card._id)
+      .then(_ => {
+        setCards((state) => state.filter((item) => item._id !== card._id));
+        closeAllPopups();
+        setLoader(nameBtn);
       })
       .catch(err => console.error(`Ошибка: ${ err }`))
   }
@@ -130,13 +144,13 @@ function App() {
           <Header />
           {/* Main */}
           <Main
+            cards={ cards }
             onEditProfile={ handleEditProfileClick }
             onAddPlace={ handleAddPlaceClick }
             onEditAvatar={ handleEditAvatarClick }
             onCardClick={ handleCardClick }
-            cards={ cards }
             onCardLike={ handleCardLike }
-            onCardDelete={ handleCardDelete } />
+            onCardDelete={ handleDeleteCardClick } />
           {/* Footer */}
           <Footer />
 
@@ -145,7 +159,7 @@ function App() {
           {/* popup photo */}
           <AddPlacePopup isOpen={ isAddPlacePopupOpen } onClose={ closeAllPopups } onAddPlace={ handleAddPlaceSubmit } />
           {/* popup card delete */}
-          <PopupWithForm name="card-delete" title="Вы уверены?" ariaLabelBtn="Подтвердить удаление карточки" nameBtn="Да" />
+          <PopupCardDelete isOpen={ isDeleteCardPopupOpen } onClose={ closeAllPopups } onCardDelete={ handleCardDelete } card={ selectCardDelete } />
           {/* popup update avatar */}
           <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onUpdateAvatar={ handleUpdateAvatar } />
           {/* popup fullscreen */}
