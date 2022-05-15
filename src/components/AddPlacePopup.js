@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
+import InputValidation from "./InputValidation";
 
 function AddPlacePopup({ onClose, isOpen, onCloseOverlay, onAddPlace }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
+  const [validation, setValidation] = useState({ name: false, link: false });
+  const [valid, setValid] = useState(false);
 
-  function handleChangeName(e) {
-    setName(e.target.value);
+  function handleValidity(name, inputValid) {
+    const inputValidity = Object.assign({}, validation);
+    inputValidity[name] = inputValid;
+    setValidation(inputValidity);
   }
 
-  function handleChengeLink(e) {
-    setLink(e.target.value);
+  function handleButtonValidation() {
+    let res = Object.values(validation).every(item => item);
+    setValid(res);
   }
 
   function handleSubmit(e, setLoader, nameBtn) {
@@ -19,47 +25,49 @@ function AddPlacePopup({ onClose, isOpen, onCloseOverlay, onAddPlace }) {
   }
 
   useEffect(() => {
+    handleButtonValidation()
+  }, [handleValidity])
+
+  useEffect(() => {
     setName('');
     setLink('');
+    setValidation({ name: false, link: false });
   }, [isOpen]);
 
   return (
     <PopupWithForm
       name="photo"
       title="Новое место"
-      onClose={onClose}
+      onClose={ onClose }
       onCloseOverlay={ onCloseOverlay }
-      isOpen={isOpen}
-      onSubmit={handleSubmit}
+      isOpen={ isOpen }
+      onSubmit={ handleSubmit }
+      validation={ valid }
     >
-      <label className="popup__input-group">
-        <input
-          className="popup__input popup__input_type_card-name"
-          id="card-name-input"
-          type="text"
-          name="cardname"
-          placeholder="Название"
-          minLength="2"
-          maxLength="30"
-          required
-          value={name ?? ''}
-          onChange={handleChangeName}
-        />
-        <p className="popup__input-error card-name-input-error"></p>
-      </label>
-      <label className="popup__input-group">
-        <input
-          className="popup__input popup__input_type_card-link"
-          id="card-link-input"
-          type="url"
-          name="cardlink"
-          placeholder="Ссылка на картинку"
-          required
-          value={link ?? ''}
-          onChange={handleChengeLink}
-        />
-        <p className="popup__input-error card-link-input-error"></p>
-      </label>
+      <InputValidation
+        className="popup__input_type_card-name"
+        type="text"
+        name="name"
+        placeholder="Название"
+        minLength="2"
+        maxLength="30"
+        required="required"
+        value={ name ?? '' }
+        setValue={ setName }
+        reset={ isOpen }
+        validation={ handleValidity }
+      />
+      <InputValidation
+        className="popup__input_type_card-link"
+        type="url"
+        name="link"
+        placeholder="Ссылка на картинку"
+        required="required"
+        value={ link ?? '' }
+        setValue={ setLink }
+        reset={ isOpen }
+        validation={ handleValidity }
+      />
     </PopupWithForm>
   );
 }

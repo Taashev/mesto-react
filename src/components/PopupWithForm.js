@@ -10,7 +10,8 @@ function PopupWithForm({
   isOpen,
   onClose,
   onCloseOverlay,
-  onSubmit
+  onSubmit,
+  validation
 }) {
   const [loader, setLoader] = useState(nameBtn);
 
@@ -33,15 +34,14 @@ function PopupWithForm({
     }
   }, [])
 
-
   return (
-    <div className={ `popup popup_type_${ name } ${ isOpen ? 'popup_opened' : '' }` } onClick={ onCloseOverlay }>
+    <div className={ `popup popup_type_${ name } ${ isOpen ? 'popup_opened' : '' }` } onMouseDown={ onCloseOverlay }>
       <div className="popup__container">
         <button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно" onClick={ onClose }></button>
         <h2 className="popup__title">{ title }</h2>
-        <form className={ `popup__form popup__form_type_${ name }` } method="get" name={ name } onSubmit={ handleSubmit }>
+        <form className={ `popup__form popup__form_type_${ name }` } method="get" name={ name } noValidate onSubmit={ handleSubmit }>
           { children }
-          <button className="popup__button" type="submit" aria-label={ ariaLabelBtn }>{ loader }</button>
+          <button className={ `popup__button ${ validation ? '' : 'popup__button_type_inactive' }` } type="submit" aria-label={ ariaLabelBtn } disabled={ validation ? false : true } >{ loader }</button>
         </form>
       </div>
     </div>

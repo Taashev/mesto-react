@@ -1,17 +1,37 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
+import InputValidation from "./InputValidation";
 
 function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
-  const avatar = useRef();
+  // const avatar = useRef();
+  const [avatar, setAvatar] = useState('');
+  const [validation, setValidation] = useState({ avatar: false });
+  const [valid, setValid] = useState(false);
 
-  useEffect(() => {
-    avatar.current.value = '';
-  }, [isOpen]);
+  function handleValidity(name, inputValid) {
+    const inputValidity = Object.assign({}, validation);
+    inputValidity[name] = inputValid;
+    setValidation(inputValidity);
+  }
+
+  function handleButtonValidation() {
+    const res = Object.values(validation).every(item => item);
+    setValid(res);
+  }
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onUpdateAvatar({ avatar: avatar.current.value }, setLoader, nameBtn);
+    onUpdateAvatar({ avatar: avatar }, setLoader, nameBtn);
   }
+
+  useEffect(() => {
+    handleButtonValidation()
+  }, [handleValidity])
+
+  useEffect(() => {
+    setAvatar('')
+    setValidation({ avatar: false })
+  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -20,20 +40,20 @@ function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
       isOpen={isOpen}
       onClose={onClose}
       onCloseOverlay={ onCloseOverlay }
-      onSubmit={handleSubmit}
+      onSubmit={ handleSubmit }
+      validation={ valid }
     >
-      <label className="popup__input-group">
-        <input
-          className="popup__input popup__input_type_avatar"
-          id="avatar-input"
-          type="url"
-          name="avatar"
-          placeholder="Ссылка на картинку"
-          required
-          ref={avatar}
-        />
-        <p className="popup__input-error avatar-input-error"></p>
-      </label>
+      <InputValidation
+        className="popup__input_type_avatar"
+        type="url"
+        name="avatar"
+        placeholder="Ссылка на картинку"
+        required="required"
+        reset={ isOpen }
+        value={ avatar }
+        setValue={ setAvatar }
+        validation={ handleValidity }
+      />
     </PopupWithForm>
   );
 }
