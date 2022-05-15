@@ -10,15 +10,15 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardLikeButtonClassName = isLiked ? 'card__like_active' : '';
 
   function handleCardClick() {
-    onCardClick(card)
+    onCardClick(card);
   }
 
   function handleLikeClick() {
-    onCardLike(card)
+    onCardLike(card);
   }
 
   function handleDeleteClick() {
-    onCardDelete(card)
+    onCardDelete(card);
   }
 
   return (

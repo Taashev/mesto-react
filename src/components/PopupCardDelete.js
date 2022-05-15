@@ -1,14 +1,8 @@
 import PopupWithForm from "./PopupWithForm";
 
-function PopupCardDelete({
-  onClose,
-  isOpen,
-  onCardDelete,
-  card
-}) {
+function PopupCardDelete({ onClose, onCloseOverlay, isOpen, onCardDelete, card }) {
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-
     onCardDelete(card, setLoader, nameBtn)
   }
 
@@ -20,6 +14,7 @@ function PopupCardDelete({
       nameBtn="Да"
       textLoading="Удалине..."
       onClose={ onClose }
+      onCloseOverlay={ onCloseOverlay }
       isOpen={ isOpen }
       onSubmit={ handleSubmit }
     />

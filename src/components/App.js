@@ -87,6 +87,13 @@ function App() {
     setSelectedCard({});
   };
 
+  // close popup overlay
+  function closeOverlay(e) {
+    if(e.target.classList.contains('popup')) {
+      closeAllPopups();
+    }
+  }
+
   // handle card click
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -155,13 +162,13 @@ function App() {
           <Footer />
 
           {/* popup profile */}
-          <EditProfilePopup isOpen={ isEditProfilePopupOpen } onClose={ closeAllPopups } onUpdateUser={ handleUpdateUser } />
+          <EditProfilePopup isOpen={ isEditProfilePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onUpdateUser={ handleUpdateUser } />
           {/* popup photo */}
-          <AddPlacePopup isOpen={ isAddPlacePopupOpen } onClose={ closeAllPopups } onAddPlace={ handleAddPlaceSubmit } />
+          <AddPlacePopup isOpen={ isAddPlacePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onAddPlace={ handleAddPlaceSubmit } />
           {/* popup card delete */}
-          <PopupCardDelete isOpen={ isDeleteCardPopupOpen } onClose={ closeAllPopups } onCardDelete={ handleCardDelete } card={ selectCardDelete } />
+          <PopupCardDelete isOpen={ isDeleteCardPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onCardDelete={ handleCardDelete } card={ selectCardDelete } />
           {/* popup update avatar */}
-          <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onUpdateAvatar={ handleUpdateAvatar } />
+          <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onUpdateAvatar={ handleUpdateAvatar } />
           {/* popup fullscreen */}
           <ImagePopup card={ selectedCard } onClose={ closeAllPopups }/>
         </div>
