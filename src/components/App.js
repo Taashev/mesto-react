@@ -170,7 +170,7 @@ function App() {
           {/* popup update avatar */}
           <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onUpdateAvatar={ handleUpdateAvatar } />
           {/* popup fullscreen */}
-          <ImagePopup card={ selectedCard } onClose={ closeAllPopups }/>
+          <ImagePopup card={ selectedCard } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay }/>
         </div>
     </CurrentUserContext.Provider>
   );
