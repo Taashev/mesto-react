@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 import InputValidation from "./InputValidation";
 
 function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
-  // const avatar = useRef();
   const [avatar, setAvatar] = useState('');
   const [validation, setValidation] = useState({ avatar: false });
   const [valid, setValid] = useState(false);
@@ -37,8 +36,8 @@ function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
     <PopupWithForm
       name="update-avatar"
       title="Обновить аватар"
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={ isOpen }
+      onClose={ onClose }
       onCloseOverlay={ onCloseOverlay }
       onSubmit={ handleSubmit }
       validation={ valid }
