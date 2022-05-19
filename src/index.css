@@ -1,0 +1,134 @@
+/** normalize ============================= */
+@import url(./vendor/normalize.css);
+
+
+/** fonts ================================= */
+/* Inter */
+@import url(./vendor/fonts/Inter/inter.css);
+
+
+/** Дефолтные стили элементов ============= */
+/* hover */
+@import url(./blocks/hover/hover.css);
+
+
+/* body =================================== */
+@import url(./blocks/body/body.css);
+
+
+/* page =================================== */
+@import url(./blocks/page/page.css);
+
+
+/* header ================================= */
+@import url(./blocks/header/header.css);
+
+
+/* logo =================================== */
+@import url(./blocks/logo/logo.css);
+
+
+/* content ================================ */
+@import url(./blocks/content/content.css);
+
+
+/* profile ================================ */
+@import url(./blocks/profile/profile.css);
+/* __img-wraper */
+@import url(./blocks/profile/__img-wraper/profile__img-wraper.css);
+/* __img */
+@import url(./blocks/profile/__img/profile__img.css);
+/* __info */
+@import url(./blocks/profile/__info/profile__info.css);
+/* __user-name */
+@import url(./blocks/profile/__user-name/profile__user-name.css);
+/* __user-about */
+@import url(./blocks/profile/__user-about/profile__user-about.css);
+/* __edit-btn */
+@import url(./blocks/profile/__edit-btn/profile__edit-btn.css);
+/* __add-btn */
+@import url(./blocks/profile/__add-btn/profile__add-btn.css);
+
+
+/* card ============================ */
+@import url(./blocks/card/card.css);
+/* __items */
+@import url(./blocks/card/__items/card__items.css);
+/* __item */
+@import url(./blocks/card/__item/card__item.css);
+/* __trash */
+@import url(./blocks/card/__trash/card__trash.css);
+/* __img */
+@import url(./blocks/card/__img/card__img.css);
+/* __footer */
+@import url(./blocks/card/__footer/card__footer.css);
+/* __text */
+@import url(./blocks/card/__text/card__text.css);
+/* __like-wraper */
+@import url(./blocks/card/__like-wraper/card__like-wraper.css);
+/* __like */
+@import url(./blocks/card/__like/card__like.css);
+/* __like_active */
+@import url(./blocks/card/__like/_active/card__like_active.css);
+/* __counter-like */
+@import url(./blocks/card/__counter/card__counter.css);
+
+
+/* footer ================================= */
+@import url(./blocks/footer/footer.css);
+/* __cop */
+@import url(./blocks/footer/__cop/footer__cop.css);
+
+
+/* popup ================================== */
+@import url(./blocks/popup/popup.css);
+/* _type_profile */
+@import url(./blocks/popup/_type/popup_type_profile.css);
+/* _type_update-avatar */
+@import url(./blocks/popup/_type/popup_type_update-avatar.css);
+/* _type_photo */
+@import url(./blocks/popup/_type/popup_type_photo.css);
+/* _type_fullcsreen */
+@import url(./blocks/popup/_type/popup_type_fullscreen.css);
+/* _type_card-delete */
+@import url(./blocks/popup/_type/popup_type_card-delete.css);
+/* _opened */
+@import url(./blocks/popup/_opened/popup_opened.css);
+/* __close */
+@import url(./blocks/popup/__close/popup__close.css);
+/* __container */
+@import url(./blocks/popup/__container/popup__container.css);
+/* __contaier-fullscreen */
+@import url(./blocks/popup/__container-fullscreen/popup__container-fullscreen.css);
+/* __full-img */
+@import url(./blocks/popup/__full-img/popup__full-img.css);
+/* __full-text */
+@import url(./blocks/popup/__full-text/popup__full-text.css);
+/* __form */
+@import url(./blocks/popup/__form/popup__form.css);
+/* __form_type_profile */
+@import url(./blocks/popup/__form/_type/popup__form_type_profile.css);
+/* __form_type_photo */
+@import url(./blocks/popup/__form/_type/popup__form_type_photo.css);
+/* __title */
+@import url(./blocks/popup/__title/popup__title.css);
+/* __input-group */
+@import url(./blocks/popup/__input-group/popup__input-group.css);
+/* __input */
+@import url(./blocks/popup/__input/popup__input.css);
+/* __input_type_name */
+@import url(./blocks/popup/__input/_type/popup__input_type_user-name.css);
+/* __input_type_about-me */
+@import url(./blocks/popup/__input/_type/popup__input_type_about-me.css);
+/* __input_type_card-name */
+@import url(./blocks/popup/__input/_type/popup__input_type_card-name.css);
+/* __input_type_card-link */
+@import url(./blocks/popup/__input/_type/popup__input_type_card-link.css);
+/* __input_type_invalid */
+@import url(./blocks/popup/__input/_type/popup__input_type_invalid.css);
+/* __input-error */
+@import url(./blocks/popup/__input-error/popup__input-error.css);
+/* __button */
+@import url(./blocks/popup/__button/popup__button.css);
+/* __button_type_inactive */
+@import url(./blocks/popup/__button/_type/popup__button_type_inactive.css);
