@@ -232,7 +232,6 @@ function App() {
               <Register onInfoTooltip={ setIsInfoTooltips } onRegister={ handleRegister } />
             </Route>
             <ProtectedRoute
-              exact
               path="/"
               loggedIn={ loggedIn }
               component={ Main }
@@ -247,10 +246,6 @@ function App() {
               onSignOut={ handleSignOut }
               stateMenu={ stateMenu }
               onBurgerClick={ hanaleClickBurger } />
-            <Route path="*">
-              <Header />
-              <NotFound />
-            </Route>
           </Switch>
           <Footer />
 
