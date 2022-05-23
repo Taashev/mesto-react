@@ -17,8 +17,7 @@ function PopupCardDelete({ onClose, onCloseOverlay, isOpen, onCardDelete, card }
       onCloseOverlay={ onCloseOverlay }
       isOpen={ isOpen }
       onSubmit={ handleSubmit }
-      validation="true"
-    />
+      formValidation="true" />
   );
 }
 

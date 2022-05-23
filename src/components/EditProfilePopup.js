@@ -1,39 +1,31 @@
 import React, { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import InputValidation from "./InputValidation";
+import useInputValidation from "../utils/useInputValidation";
 
-function EditProfilePopup({ isOpen, onClose, onCloseOverlay, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onCloseOverlay, keyClosePopup, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState(currentUser.name);
-  const [description, setDescription] = useState(currentUser.about);
-  const [validation, setValidation] = useState({ name: true, description: true });
-  const [valid, setValid] = useState(true);
+  const inputName = useInputValidation(currentUser.name);
+  const inputAbout = useInputValidation(currentUser.about);
+  const [formValidation, setFormValidation] = useState(true);
 
-  function handleValidity(name, inputValid) {
-    const inputValidity = Object.assign({}, validation);
-    inputValidity[name] = inputValid;
-    setValidation(inputValidity);
-  }
-
-  function handleButtonValidation() {
-    const res = Object.values(validation).every(item => item);
-    setValid(res);
+  function handleFormValidation() {
+    const res = [inputName.valid, inputAbout.valid].every(item => item);
+    setFormValidation(res);
   }
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onUpdateUser({ name, about: description }, setLoader, nameBtn);
+    onUpdateUser({ name: inputName.value, about: inputAbout.value }, setLoader, nameBtn);
   }
 
   useEffect(() => {
-    handleButtonValidation();
-  }, [handleValidity])
+    handleFormValidation();
+  })
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-    setValidation({ name: true, description: name });
+    inputName.resetValidation(currentUser.name);
+    inputAbout.resetValidation(currentUser.about);
   }, [currentUser, isOpen]);
 
   return (
@@ -43,37 +35,40 @@ function EditProfilePopup({ isOpen, onClose, onCloseOverlay, onUpdateUser }) {
       isOpen={ isOpen }
       onClose={ onClose }
       onCloseOverlay={ onCloseOverlay }
+      keyClosePopup={ keyClosePopup }
       onSubmit={ handleSubmit }
-      validation={ valid }
-    >
-      <InputValidation
-        className="popup__input_type_user-name"
-        type="text"
-        name="username"
-        placeholder="Имя"
-        minLength="2"
-        maxLength="40"
-        required="required"
-        value={ name ?? '' }
-        setValue={ setName }
-        reset={ isOpen }
-        validation={ handleValidity }
-        />
-      <InputValidation
-        className="popup__input_type_about-me"
-        type="text"
-        name="aboutme"
-        placeholder="О себе"
-        minLength="2"
-        maxLength="200"
-        required="required"
-        value={ description ?? '' }
-        setValue={ setDescription }
-        reset={ isOpen }
-        validation={ handleValidity }
-      />
+      formValidation={ formValidation } >
+      <label className="popup__input-group">
+        <input
+          className={ `popup__input popup__input_type_user-name ${ inputName.inputError ? '' : 'input-invalid' }` }
+          type="text"
+          name="name"
+          placeholder="Имя"
+          minLength="2"
+          maxLength="40"
+          required
+          value={ inputName.value || '' }
+          onChange={ e => inputName.onChange(e) }
+          onBlur={ e => inputName.onBlur(e) } />
+        <p className="input-error">{ inputName.errorMessage }</p>
+      </label>
+      <label className="popup__input-group">
+        <input
+          className={ `popup__input popup__input_type_about-me ${ inputAbout.inputError ? '' : 'input-invalid' }` }
+          type="text"
+          name="about"
+          placeholder="О себе"
+          minLength="2"
+          maxLength="200"
+          required
+          value={ inputAbout.value || '' }
+          onChange={ e => inputAbout.onChange(e) }
+          onBlur={ e => inputAbout.onBlur(e) } />
+        <p className="input-error">{ inputAbout.errorMessage }</p>
+      </label>
     </PopupWithForm>
   );
 }
+
 
 export default EditProfilePopup;

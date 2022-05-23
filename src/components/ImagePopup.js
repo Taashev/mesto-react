@@ -1,4 +1,14 @@
-function ImagePopup({ card, onClose, onCloseOverlay }) {
+import React, { useEffect } from "react";
+
+function ImagePopup({ card, onClose, onCloseOverlay, keyClosePopup }) {
+  useEffect(() => {
+    document.addEventListener('keyup', keyClosePopup);
+
+    return () => {
+      document.removeEventListener('keyup', keyClosePopup);
+    }
+  }, [])
+
   return (
     <div className={`popup popup_type_fullscreen ${ card?.link ? 'popup_opened' : '' }`} onClick={ onCloseOverlay }>
       <div className="popup__container-fullscreen">

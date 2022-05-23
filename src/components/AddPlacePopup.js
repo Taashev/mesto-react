@@ -1,37 +1,29 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-import InputValidation from "./InputValidation";
+import useInputValidation from "../utils/useInputValidation";
 
-function AddPlacePopup({ onClose, isOpen, onCloseOverlay, onAddPlace }) {
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
-  const [validation, setValidation] = useState({ name: false, link: false });
-  const [valid, setValid] = useState(false);
+function AddPlacePopup({ onClose, isOpen, onCloseOverlay, keyClosePopup, onAddPlace }) {
+  const inputName = useInputValidation();
+  const inputLink = useInputValidation();
+  const [formValidation, setFormValidation] = useState(false);
 
-  function handleValidity(name, inputValid) {
-    const inputValidity = Object.assign({}, validation);
-    inputValidity[name] = inputValid;
-    setValidation(inputValidity);
+  function handleFormValidation() {
+    const res = [inputName.valid, inputLink.valid].every(item => item);
+    setFormValidation(res);
   }
 
-  function handleButtonValidation() {
-    let res = Object.values(validation).every(item => item);
-    setValid(res);
-  }
+  useEffect(() => {
+    handleFormValidation();
+  })
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onAddPlace({ name: name, link: link }, setLoader, nameBtn);
+    onAddPlace({ name: inputName.value, link: inputLink.value }, setLoader, nameBtn);
   }
 
   useEffect(() => {
-    handleButtonValidation()
-  }, [handleValidity])
-
-  useEffect(() => {
-    setName('');
-    setLink('');
-    setValidation({ name: false, link: false });
+    inputName.resetValidation('', false);
+    inputLink.resetValidation('', false);
   }, [isOpen]);
 
   return (
@@ -40,34 +32,36 @@ function AddPlacePopup({ onClose, isOpen, onCloseOverlay, onAddPlace }) {
       title="Новое место"
       onClose={ onClose }
       onCloseOverlay={ onCloseOverlay }
+      keyClosePopup={ keyClosePopup }
       isOpen={ isOpen }
       onSubmit={ handleSubmit }
-      validation={ valid }
-    >
-      <InputValidation
-        className="popup__input_type_card-name"
-        type="text"
-        name="name"
-        placeholder="Название"
-        minLength="2"
-        maxLength="30"
-        required="required"
-        value={ name ?? '' }
-        setValue={ setName }
-        reset={ isOpen }
-        validation={ handleValidity }
-      />
-      <InputValidation
-        className="popup__input_type_card-link"
-        type="url"
-        name="link"
-        placeholder="Ссылка на картинку"
-        required="required"
-        value={ link ?? '' }
-        setValue={ setLink }
-        reset={ isOpen }
-        validation={ handleValidity }
-      />
+      formValidation={ formValidation } >
+      <label className="popup__input-group">
+        <input
+          className={ `popup__input popup__input_type_card-name ${ inputName.inputError ? '' : 'input-invalid' }` }
+          type="text"
+          name="name"
+          placeholder="Название"
+          minLength="2"
+          maxLength="30"
+          required
+          value={ inputName.value || '' }
+          onChange={ e => inputName.onChange(e) }
+          onBlur={ e => inputName.onBlur(e) } />
+        <p className="input-error">{ inputName.errorMessage }</p>
+      </label>
+      <label className="popup__input-group">
+        <input
+          className={ `popup__input popup__input_type_card-link ${ inputLink.inputError ? '' : 'input-invalid' }` }
+          type="url"
+          name="link"
+          placeholder="Ссылка на картинку"
+          required
+          value={ inputLink.value || '' }
+          onChange={ e => inputLink.onChange(e) }
+          onBlur={ e => inputLink.onBlur(e) } />
+        <p className="input-error">{ inputLink.errorMessage }</p>
+      </label>
     </PopupWithForm>
   );
 }

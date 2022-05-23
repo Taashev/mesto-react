@@ -1,35 +1,17 @@
 import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-import InputValidation from "./InputValidation";
+import useInputValidation from '../utils/useInputValidation';
 
-function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
-  const [avatar, setAvatar] = useState('');
-  const [validation, setValidation] = useState({ avatar: false });
-  const [valid, setValid] = useState(false);
-
-  function handleValidity(name, inputValid) {
-    const inputValidity = Object.assign({}, validation);
-    inputValidity[name] = inputValid;
-    setValidation(inputValidity);
-  }
-
-  function handleButtonValidation() {
-    const res = Object.values(validation).every(item => item);
-    setValid(res);
-  }
+function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, keyClosePopup, onUpdateAvatar }) {
+  const inputAvatar = useInputValidation('');
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onUpdateAvatar({ avatar: avatar }, setLoader, nameBtn);
-  }
+    onUpdateAvatar({ avatar: inputAvatar.value }, setLoader, nameBtn);
+  };
 
   useEffect(() => {
-    handleButtonValidation()
-  }, [handleValidity])
-
-  useEffect(() => {
-    setAvatar('')
-    setValidation({ avatar: false })
+    inputAvatar.resetValidation('', false);
   }, [isOpen]);
 
   return (
@@ -39,20 +21,21 @@ function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
       isOpen={ isOpen }
       onClose={ onClose }
       onCloseOverlay={ onCloseOverlay }
+      keyClosePopup={ keyClosePopup }
       onSubmit={ handleSubmit }
-      validation={ valid }
-    >
-      <InputValidation
-        className="popup__input_type_avatar"
-        type="url"
-        name="avatar"
-        placeholder="Ссылка на картинку"
-        required="required"
-        reset={ isOpen }
-        value={ avatar }
-        setValue={ setAvatar }
-        validation={ handleValidity }
-      />
+      formValidation={ inputAvatar.valid } >
+      <label className="popup__input-group">
+        <input
+          className={ `popup__input popup__input_type_avatar ${ inputAvatar.inputError ? '' : 'input-invalid' }` }
+          type="url"
+          name="avatar"
+          placeholder="Ссылка на картинку"
+          required
+          value={ inputAvatar.value || '' }
+          onChange={ e => inputAvatar.onChange(e) }
+          onBlur={ e => inputAvatar.onBlur(e) } />
+        <p className="input-error">{ inputAvatar.errorMessage }</p>
+      </label>
     </PopupWithForm>
   );
 }

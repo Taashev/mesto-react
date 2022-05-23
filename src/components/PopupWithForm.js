@@ -11,7 +11,8 @@ function PopupWithForm({
   onClose,
   onCloseOverlay,
   onSubmit,
-  validation
+  formValidation,
+  keyClosePopup
 }) {
   const [loader, setLoader] = useState(nameBtn);
 
@@ -21,12 +22,6 @@ function PopupWithForm({
   }
 
   useEffect(() => {
-    function keyClosePopup(e) {
-      if(e.key === 'Escape') {
-        onClose();
-      }
-    }
-
     document.addEventListener('keyup', keyClosePopup);
 
     return () => {
@@ -41,7 +36,7 @@ function PopupWithForm({
         <h2 className="popup__title">{ title }</h2>
         <form className={ `popup__form popup__form_type_${ name }` } method="get" name={ name } noValidate onSubmit={ handleSubmit }>
           { children }
-          <button className={ `popup__button ${ validation ? '' : 'popup__button_type_inactive' }` } type="submit" aria-label={ ariaLabelBtn } disabled={ validation ? false : true } >{ loader }</button>
+          <button className={ `popup__button ${ formValidation ? '' : 'popup__button_type_inactive' }` } type="submit" aria-label={ ariaLabelBtn } disabled={ !formValidation } >{ loader }</button>
         </form>
       </div>
     </div>
