@@ -26,6 +26,16 @@ const useInputValidation = (e) => {
     setErrorMessage('');
   }
 
+  const checkInputValid = () => {
+    if(!valid) {
+      if(value.length === 0) {
+        setErrorMessage('Заполните это поле.')
+        setInputError(false);
+        return
+      }
+    }
+  }
+
   return {
     value,
     setValue,
@@ -37,7 +47,8 @@ const useInputValidation = (e) => {
     setErrorMessage,
     onChange,
     onBlur,
-    resetValidation
+    resetValidation,
+    checkInputValid
   }
 }
 

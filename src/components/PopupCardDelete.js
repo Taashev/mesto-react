@@ -1,3 +1,4 @@
+import Popup from "./Popup";
 import PopupWithForm from "./PopupWithForm";
 
 function PopupCardDelete({ onClose, onCloseOverlay, isOpen, onCardDelete, card }) {
@@ -7,17 +8,20 @@ function PopupCardDelete({ onClose, onCloseOverlay, isOpen, onCardDelete, card }
   }
 
   return (
-    <PopupWithForm
-      name="card-delete"
+    <Popup
+      popupType="card-delete"
       title="Вы уверены?"
       ariaLabelBtn="Подтвердить удаление карточки"
-      nameBtn="Да"
-      textLoading="Удалине..."
-      onClose={ onClose }
-      onCloseOverlay={ onCloseOverlay }
-      isOpen={ isOpen }
-      onSubmit={ handleSubmit }
-      formValidation="true" />
+      onClose={onClose}
+      onCloseOverlay={onCloseOverlay}
+      isOpen={isOpen} >
+        <PopupWithForm
+          name="card-delete"
+          nameBtn="Да"
+          textLoading="Удалине..."
+          formValidation="true"
+          onSubmit={handleSubmit} />
+    </Popup>
   );
 }
 

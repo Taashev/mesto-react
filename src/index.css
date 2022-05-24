@@ -163,6 +163,8 @@
 @import url(./blocks/popup/__title/popup__title.css);
 /* __title_type_info */
 @import url(./blocks/popup/__title/_type/popup__title_type_info.css);
+/* __title_invisible */
+@import url(./blocks/popup/__title/_invisible/popup__title_invisible.css);
 /* __images */
 @import url(./blocks/popup/__images/popup__images.css);
 /* __input-group */

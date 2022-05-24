@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import useInputValidation from "../utils/useInputValidation";
 import NotFound from "./NoutFound";
@@ -10,6 +10,14 @@ function Login({ onLogin, onInfoTooltip }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const validation = inputEmail.valid && inputPassword.valid;
+    if(!validation) {
+      inputPassword.checkInputValid()
+      inputEmail.checkInputValid()
+      return
+    }
+
     onLogin(inputPassword.value, inputEmail.value)
       .then(res => {
         if(res) {
@@ -18,40 +26,45 @@ function Login({ onLogin, onInfoTooltip }) {
         }
       })
       .catch(err => {
-        onInfoTooltip({ isOpen: true, status: false, message: err.error || err.message })
+        onInfoTooltip({isOpen: true, status: false, message: err.error || err.message})
       })
   }
+
+  useEffect(() => {
+    inputEmail.setValid(false);
+    inputPassword.setValid(false);
+  }, [])
 
   return (
     <Switch>
       <Route exact path={`${path}`}>
         <section className="login">
           <h2 className="login__title title">Вход</h2>
-          <form className="form" name="login" method="post" onSubmit={ handleSubmit } noValidate>
+          <form className="form" name="login" method="post" onSubmit={handleSubmit} noValidate>
             <label className="form__input-group">
               <input
-                className={ `form__input ${ inputEmail.inputError ? '' : 'input-invalid' }` }
+                className={`form__input ${inputEmail.inputError ? '' : 'input-invalid'}`}
                 type="email"
                 name="login-email"
                 placeholder="Email"
                 required
-                value={ inputEmail.value || '' }
-                onChange={ e => inputEmail.onChange(e) }
-                onBlur={ e => inputEmail.onBlur(e) } />
-              <p className="input-error">{ inputEmail.errorMessage }</p>
+                value={inputEmail.value || ''}
+                onChange={e => inputEmail.onChange(e)}
+                onBlur={e => inputEmail.onBlur(e)} />
+              <p className="input-error">{inputEmail.errorMessage}</p>
             </label>
             <label className="form__input-group">
               <input
-                className={ `form__input ${ inputPassword.inputError ? '' : 'input-invalid' }` }
+                className={`form__input ${inputPassword.inputError ? '' : 'input-invalid'}`}
                 type="password"
                 name="login-password"
                 placeholder="Пароль"
                 minLength="3"
                 required
-                value={ inputPassword.value || '' }
-                onChange={ e => inputPassword.onChange(e) }
-                onBlur={ e => inputPassword.onBlur(e) } />
-              <p className="input-error">{ inputPassword.errorMessage }</p>
+                value={inputPassword.value || ''}
+                onChange={e => inputPassword.onChange(e)}
+                onBlur={e => inputPassword.onBlur(e)} />
+              <p className="input-error">{inputPassword.errorMessage}</p>
             </label>
             <button className="form__button" type="submit">Войти</button>
           </form>

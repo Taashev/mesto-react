@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function PopupWithForm({
   name,
-  title,
   children,
   ariaLabelBtn = "сохранить изминения",
   nameBtn = "Сохранить",
   textLoading = "Сохранение...",
-  isOpen,
-  onClose,
-  onCloseOverlay,
   onSubmit,
   formValidation,
-  keyClosePopup
 }) {
   const [loader, setLoader] = useState(nameBtn);
 
@@ -21,25 +16,17 @@ function PopupWithForm({
     setLoader(textLoading);
   }
 
-  useEffect(() => {
-    document.addEventListener('keyup', keyClosePopup);
-
-    return () => {
-      document.removeEventListener('keyup', keyClosePopup);
-    }
-  }, [])
-
   return (
-    <div className={ `popup popup_type_${ name } ${ isOpen ? 'popup_opened' : '' }` } onMouseDown={ onCloseOverlay }>
-      <div className="popup__container">
-        <button className="popup__close hover" type="button" aria-label="закрыть всплывающее окно" onClick={ onClose }></button>
-        <h2 className="popup__title">{ title }</h2>
-        <form className={ `popup__form popup__form_type_${ name }` } method="get" name={ name } noValidate onSubmit={ handleSubmit }>
-          { children }
-          <button className={ `popup__button ${ formValidation ? '' : 'popup__button_type_inactive' }` } type="submit" aria-label={ ariaLabelBtn } disabled={ !formValidation } >{ loader }</button>
-        </form>
-      </div>
-    </div>
+    <form className={`popup__form popup__form_type_${name}`} method="get" name={name} noValidate onSubmit={handleSubmit}>
+      {children}
+      <button
+        className={`popup__button ${formValidation ? '' : 'popup__button_type_inactive'}`}
+        type="submit"
+        aria-label={ariaLabelBtn}
+        disabled={!formValidation}>
+          {loader}
+      </button>
+    </form>
   )
 }
 

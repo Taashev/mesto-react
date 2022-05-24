@@ -90,13 +90,6 @@ function App() {
     }
   }
 
-  // close popup key
-  function keyClosePopup(e) {
-    if(e.key === 'Escape') {
-      closeAllPopups();
-    }
-  }
-
   // handle card click
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -255,17 +248,17 @@ function App() {
           <Footer />
 
           {/* popup update avatar */}
-          <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } onUpdateAvatar={ handleUpdateAvatar } />
+          <EditAvatarPopup isOpen={ isEditAvatarPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onUpdateAvatar={ handleUpdateAvatar } />
           {/* popup profile */}
-          <EditProfilePopup isOpen={ isEditProfilePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } onUpdateUser={ handleUpdateUser } />
+          <EditProfilePopup isOpen={ isEditProfilePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onUpdateUser={ handleUpdateUser } />
           {/* popup photo */}
-          <AddPlacePopup isOpen={ isAddPlacePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } onAddPlace={ handleAddPlaceSubmit } />
+          <AddPlacePopup isOpen={ isAddPlacePopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onAddPlace={ handleAddPlaceSubmit } />
           {/* popup card delete */}
-          <PopupCardDelete isOpen={ isDeleteCardPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } onCardDelete={ handleCardDelete } card={ selectCardDelete } />
+          <PopupCardDelete isOpen={ isDeleteCardPopupOpen } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } onCardDelete={ handleCardDelete } card={ selectCardDelete } />
           {/* popup fullscreen */}
-          <ImagePopup card={ selectedCard } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } />
+          <ImagePopup card={ selectedCard } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } />
           {/* Info Tooltip */}
-          <InfoTooltip config={ isInfoTooltip } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } keyClosePopup={ keyClosePopup } />
+          <InfoTooltip config={ isInfoTooltip } onClose={ closeAllPopups } onCloseOverlay={ closeOverlay } />
         </div>
     </CurrentUserContext.Provider>
   );
