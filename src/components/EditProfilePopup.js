@@ -1,59 +1,52 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Popup from "./Popup";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import useInputValidation from "../utils/useInputValidation";
+import useFormValidation from "../utils/useFormValidation";
 
 function EditProfilePopup({ isOpen, onClose, onCloseOverlay, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-  const inputName = useInputValidation(currentUser.name);
-  const inputAbout = useInputValidation(currentUser.about);
-  const [formValidation, setFormValidation] = useState(true);
+  const {values, errorMessages, valid, onChange, onBlur, resetForm,} = useFormValidation({});
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onUpdateUser({ name: inputName.value, about: inputAbout.value }, setLoader, nameBtn);
+    onUpdateUser({name: values['name'], about: values['about']}, setLoader, nameBtn);
   }
 
   useEffect(() => {
-    setFormValidation([inputName.valid, inputAbout.valid].every(item => item));
-  })
-
-  useEffect(() => {
-    inputName.resetValidation(currentUser.name);
-    inputAbout.resetValidation(currentUser.about);
+    resetForm({newValues: {name: currentUser.name, about: currentUser.about}, newValid: true})
   }, [currentUser, isOpen]);
 
   return (
-    <Popup popupType="profile" title="Редактировать профиль" isOpen={ isOpen } onClose={ onClose } onCloseOverlay={ onCloseOverlay }>
-      <PopupWithForm name="profile" onSubmit={ handleSubmit } formValidation={ formValidation } >
+    <Popup popupType="profile" title="Редактировать профиль" isOpen={isOpen} onClose={onClose} onCloseOverlay={onCloseOverlay}>
+      <PopupWithForm name="profile" onSubmit={handleSubmit} formValidation={valid} >
         <label className="popup__input-group">
           <input
-            className={ `popup__input popup__input_type_user-name ${ inputName.inputError ? '' : 'input-invalid' }` }
+            className={`popup__input popup__input_type_user-name ${errorMessages?.name ? 'input-invalid' : ''}`}
             type="text"
             name="name"
             placeholder="Имя"
             minLength="2"
             maxLength="40"
             required
-            value={ inputName.value || '' }
-            onChange={ e => inputName.onChange(e) }
-            onBlur={ e => inputName.onBlur(e) } />
-          <p className="input-error">{ inputName.errorMessage }</p>
+            value={values.name || ''}
+            onChange={e => onChange(e)}
+            onBlur={e => onBlur(e)} />
+          <p className="input-error">{errorMessages.name}</p>
         </label>
         <label className="popup__input-group">
           <input
-            className={ `popup__input popup__input_type_about-me ${ inputAbout.inputError ? '' : 'input-invalid' }` }
+            className={`popup__input popup__input_type_about-me ${errorMessages?.about ? 'input-invalid' : ''}`}
             type="text"
             name="about"
             placeholder="О себе"
             minLength="2"
             maxLength="200"
             required
-            value={ inputAbout.value || '' }
-            onChange={ e => inputAbout.onChange(e) }
-            onBlur={ e => inputAbout.onBlur(e) } />
-          <p className="input-error">{ inputAbout.errorMessage }</p>
+            value={values.about || ''}
+            onChange={e => onChange(e)}
+            onBlur={e => onBlur(e)} />
+          <p className="input-error">{errorMessages.about}</p>
         </label>
       </PopupWithForm>
     </Popup>

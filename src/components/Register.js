@@ -1,32 +1,36 @@
 import React, { useEffect } from "react";
 import { Link, Switch, useRouteMatch, Route } from "react-router-dom";
-import useInputValidation from "../utils/useInputValidation";
+import useFormValidation from "../utils/useFormValidation";
 import NotFound from "./NoutFound";
 
 function Register({ onInfoTooltip, onRegister }) {
   const {path} = useRouteMatch();
-  const inputEmail = useInputValidation('');
-  const inputPassword = useInputValidation('');
+  const {values, setValues, errorMessages, setErrorMessages, onChange, onBlur} = useFormValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
+    const validation = e.target.checkValidity();
+    const inputInvalid = [];
 
-    const validation = inputEmail.valid && inputPassword.valid;
     if(!validation) {
-      inputEmail.checkInputValid();
-      inputPassword.checkInputValid();
+			for(let name in values) {
+				if(values[name].length <= 0) {
+					inputInvalid[name] = 'Заполните это поле.';
+				}
+			}
+
+			setErrorMessages({...errorMessages, ...inputInvalid});
       return
     }
 
-    onRegister(inputPassword.value, inputEmail.value)
+    onRegister(values.registerPassword, values.registerEmail)
       .catch(err => {
         onInfoTooltip({isOpen: true, status: false, message: err?.message || err.error});
       })
   };
 
   useEffect(() => {
-    inputEmail.setValid(false);
-    inputPassword.setValid(false);
+    setValues({registerEmail: '', registerPassword: ''})
   }, [])
 
   return (
@@ -37,28 +41,28 @@ function Register({ onInfoTooltip, onRegister }) {
           <form className="form" name="register" method="post" onSubmit={handleSubmit} noValidate>
             <label className="form__input-group">
               <input
-                className={`form__input ${inputEmail.inputError ? '' : 'input-invalid'}`}
+                className={`form__input ${errorMessages?.registerEmail ? 'input-invalid' : ''}`}
                 type="email"
-                name="register-email"
+                name="registerEmail"
                 placeholder="Email"
                 required
-                value={inputEmail.value || ''}
-                onChange={e => inputEmail.onChange(e)}
-                onBlur={e => inputEmail.onBlur(e)} />
-              <p className="input-error">{inputEmail.errorMessage}</p>
+                value={values.registerEmail || ''}
+                onChange={e => onChange(e)}
+                onBlur={e => onBlur(e)} />
+              <p className="input-error">{errorMessages.registerEmail}</p>
             </label>
             <label className="form__input-group">
               <input
-                className={`form__input ${inputPassword.inputError ? '' : 'input-invalid'}`}
+                className={`form__input ${errorMessages?.registerPassword ? 'input-invalid' : ''}`}
                 type="password"
-                name="register-password"
+                name="registerPassword"
                 placeholder="Пароль"
                 minLength="3"
                 required
-                value={inputPassword.value || ''}
-                onChange={e => inputPassword.onChange(e)}
-                onBlur={e => inputPassword.onBlur(e)} />
-              <p className="input-error">{inputPassword.errorMessage}</p>
+                value={values.registerPassword || ''}
+                onChange={e => onChange(e)}
+                onBlur={e => onBlur(e)} />
+              <p className="input-error">{errorMessages.registerPassword}</p>
             </label>
             <button className="form__button" type="submit">Зарегистрироваться</button>
           </form>

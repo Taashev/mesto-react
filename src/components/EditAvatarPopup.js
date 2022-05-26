@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Popup from "./Popup";
 import PopupWithForm from "./PopupWithForm";
-import useInputValidation from '../utils/useInputValidation';
+import useFormValidation from "../utils/useFormValidation";
 
 function EditAvatarPopup({ isOpen, onClose, onCloseOverlay, onUpdateAvatar }) {
-  const inputAvatar = useInputValidation('');
+  const {values, errorMessages, valid, onChange, onBlur, resetForm} = useFormValidation();
 
   function handleSubmit(e, setLoader, nameBtn) {
     e.preventDefault();
-    onUpdateAvatar({ avatar: inputAvatar.value }, setLoader, nameBtn);
+    onUpdateAvatar({ avatar: values.avatar }, setLoader, nameBtn);
   };
 
   useEffect(() => {
-    inputAvatar.resetValidation('', false);
+    resetForm({newValues: {}});
   }, [isOpen]);
 
   return (
-    <Popup popupType="update-avatar" title="Обновить аватар" isOpen={ isOpen } onClose={ onClose } onCloseOverlay={ onCloseOverlay }>
-      <PopupWithForm name="update-avatar" onSubmit={ handleSubmit } formValidation={ inputAvatar.valid }>
+    <Popup popupType="update-avatar" title="Обновить аватар" isOpen={isOpen} onClose={onClose} onCloseOverlay={onCloseOverlay}>
+      <PopupWithForm name="update-avatar" onSubmit={handleSubmit} formValidation={valid}>
         <label className="popup__input-group">
           <input
-            className={ `popup__input popup__input_type_avatar ${ inputAvatar.inputError ? '' : 'input-invalid' }` }
+            className={`popup__input popup__input_type_avatar ${errorMessages?.avatar ? 'input-invalid' : ''}`}
             type="url"
             name="avatar"
             placeholder="Ссылка на картинку"
             required
-            value={ inputAvatar.value || '' }
-            onChange={ e => inputAvatar.onChange(e) }
-            onBlur={ e => inputAvatar.onBlur(e) }
+            value={values.avatar || ''}
+            onChange={e => onChange(e)}
+            onBlur={e => onBlur(e)}
           />
-          <p className="input-error">{ inputAvatar.errorMessage }</p>
+          <p className="input-error">{errorMessages.avatar}</p>
         </label>
       </PopupWithForm>
     </Popup>
