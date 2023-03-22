@@ -4,7 +4,7 @@
 
 ### Обзор
 
-Mesto - улучшенная версия проекта [mesto](https://github.com/Taashev/mesto) с возможностью регистрации, авторизации и выхода из профиля.
+Mesto - версия приложения [mesto](https://github.com/Taashev/mesto) переписанная на [React](https://ru.reactjs.org/) с новыми возможностями регистрации, авторизации и выхода из профиля.
 
 ### Технологии при разработке:
 
@@ -15,7 +15,7 @@ Mesto - улучшенная версия проекта [mesto](https://github.
 - Position
 - @media
 - @import
-- JavaScript
+- JavaScript (ES6)
 - OOP
 - API
 - React 18.1 (CRA)
